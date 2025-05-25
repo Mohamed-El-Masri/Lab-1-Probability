@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability Lab Solutions - Data Mining Course</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+       
+        body {
+            background: linear-gradient(135deg, #f0f4f9 0%, #e3e9f7 100%);
+            min-height: 100vh;
+        }
+        .pro-header {
+            background: linear-gradient(90deg, #0d47a1 0%, #1976d2 100%);
+            color: #fff;
+            box-shadow: 0 6px 24px rgba(13, 71, 161, 0.12);
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+        }
+        .pro-title {
+            letter-spacing: 1px;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .pro-subtitle {
+            color: #bbdefb;
+            font-size: 1.25rem;
+        }
+        .pro-author {
+            color: #fff;
+            background: #1565c0;
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            box-shadow: 0 2px 8px rgba(21,101,192,0.08);
+            font-weight: 500;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #ff9800, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .question-card {
+            background: #fff;
+            border: none;
+            box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .venn-diagram {
+            display: inline-block;
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 20px;
+        }
+        
+        .circle {
+            position: absolute;
+            border: 3px solid;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+        
+        .tree-diagram {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .formula-box {
+            background: linear-gradient(90deg, #e3f2fd 0%, #fff 100%);
+            border-left: 4px solid #1976d2;
+            color: #0d47a1;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #1976d2 0%, #43e97b 100%);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .answer-highlight {
+            background: linear-gradient(90deg, #e8f5e9 0%, #e3f2fd 100%);
+            border: 1px solid #b2dfdb;
+            color: #1b5e20;
+            font-weight: 600;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .alert-info {
+            background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #0d47a1;
+            border: 1px solid #90caf9;
+        }
+        .alert-warning {
+            background: linear-gradient(90deg, #fffde7 0%, #ffe082 100%);
+            color: #ff6f00;
+            border: 1px solid #ffe082;
+        }
+        .list-group-numbered {
+            counter-reset: none !important;
+        }
+        
+        .list-group-numbered .list-group-item::before {
+            display: none !important;
+        }
+        
+        .list-group li {
+            list-style-type: none !important;
+        }
+    </style>
+</head>
+<body>
+        <header class="pro-header mb-4">
+            <div class="container py-4">
+                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
+                        <span class="display-3 me-3 text-gradient"><i class="fas fa-calculator"></i></span>
+                        <div>
+                            <h1 class="fw-bold mb-1 pro-title">Probability Lab Solutions</h1>
+                            <p class="lead mb-0 pro-subtitle">Data Mining Course - Lecture 1 Applications</p>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="fs-4 pro-author"><i class="fas fa-user-graduate me-2"></i>Mohamed Sameh Ahmed</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Question 1 -->
+            <div class="card question-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link text-decoration-none w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#question1">
+                            <i class="fas fa-palette me-2 text-primary"></i>
+                            Question 1: Color Preferences (Set Theory & Venn Diagrams)
+                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                        </button>
+                    </h5>
+                </div>
+                <div id="question1" class="collapse">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Problem:</strong> Among a group of people, 40% liked red, 30% liked blue and 30% liked green. 7% liked both red and green, 5% liked both red and blue, 10% liked both green and blue. If 86% of them liked at least one colour, what percentage of people liked all three?
+                        </div>
+                        
+                        <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution1">
+                            <i class="fas fa-eye me-2"></i>Show Solution
+                        </button>
+                        
+                        <div id="solution1" class="collapse">
+                            <div class="formula-box">
+                                <strong>Formula Used:</strong> |A ∪ B ∪ C| = |A| + |B| + |C| - |A ∩ B| - |A ∩ C| - |B ∩ C| + |A ∩ B ∩ C|
+                            </div>
+                            
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    <span class="step-number">1</span>
+                                    <strong>Define the sets:</strong>
+                                    <ul class="mt-2">
+                                        <li>R = people who like red = 40%</li>
+                                        <li>B = people who like blue = 30%</li>
+                                        <li>G = people who like green = 30%</li>
+                                        <li>R ∩ G = 7%, R ∩ B = 5%, B ∩ G = 10%</li>
+                                        <li>R ∪ B ∪ G = 86%</li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">2</span>
+                                    <strong>Apply the inclusion-exclusion principle:</strong>
+                                    <div class="mt-2">
+                                        86% = 40% + 30% + 30% - 5% - 7% - 10% + |R ∩ B ∩ G|
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">3</span>
+                                    <strong>Solve for the intersection:</strong>
+                                    <div class="mt-2">
+                                        86% = 100% - 22% + |R ∩ B ∩ G|<br>
+                                        86% = 78% + |R ∩ B ∩ G|<br>
+                                        |R ∩ B ∩ G| = 86% - 78% = 8%
+                                    </div>
+                                </li>
+                            </ol>
+                            
+                            <div class="answer-highlight">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Answer: 8% of people liked all three colors</strong>
+                            </div>
+                            
+                            <!-- Venn Diagram -->
+                            <div class="text-center mt-4">
+                                <h6>Visual Representation:</h6>
+                                <svg width="400" height="300" viewBox="0 0 400 300" class="border">
+                                    <circle cx="150" cy="120" r="80" fill="rgba(255, 0, 0, 0.3)" stroke="red" stroke-width="2"/>
+                                    <circle cx="250" cy="120" r="80" fill="rgba(0, 0, 255, 0.3)" stroke="blue" stroke-width="2"/>
+                                    <circle cx="200" cy="180" r="80" fill="rgba(0, 255, 0, 0.3)" stroke="green" stroke-width="2"/>
+                                    <text x="120" y="80" font-weight="bold" fill="red">Red (40%)</text>
+                                    <text x="260" y="80" font-weight="bold" fill="blue">Blue (30%)</text>
+                                    <text x="180" y="240" font-weight="bold" fill="green">Green (30%)</text>
+                                    <text x="200" y="140" font-weight="bold" font-size="16">8%</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="card question-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link text-decoration-none w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#question2">
+                            <i class="fas fa-heart me-2 text-danger"></i>
+                            Question 2: Card Probability (Conditional Probability)
+                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                        </button>
+                    </h5>
+                </div>
+                <div id="question2" class="collapse">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Problem:</strong> Suppose we draw 2 cards out of a deck of 52. What is the probability that both cards are spades?
+                        </div>
+                        
+                        <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution2">
+                            <i class="fas fa-eye me-2"></i>Show Solution
+                        </button>
+                        
+                        <div id="solution2" class="collapse">
+                            <div class="formula-box">
+                                <strong>Formula Used:</strong> P(A ∩ B) = P(A) × P(B|A) for dependent events
+                            </div>
+                            
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    <span class="step-number">1</span>
+                                    <strong>Identify the events:</strong>
+                                    <ul class="mt-2">
+                                        <li>A = First card is a spade</li>
+                                        <li>B = Second card is a spade (given first is spade)</li>
+                                        <li>Total cards = 52, Spades = 13</li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">2</span>
+                                    <strong>Calculate P(A):</strong>
+                                    <div class="mt-2">P(A) = 13/52 = 1/4</div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">3</span>
+                                    <strong>Calculate P(B|A):</strong>
+                                    <div class="mt-2">
+                                        After drawing one spade, remaining cards = 51<br>
+                                        Remaining spades = 12<br>
+                                        P(B|A) = 12/51 = 4/17
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">4</span>
+                                    <strong>Calculate final probability:</strong>
+                                    <div class="mt-2">
+                                        P(both spades) = P(A) × P(B|A)<br>
+                                        = (1/4) × (4/17) = 4/68 = 1/17 ≈ 0.0588
+                                    </div>
+                                </li>
+                            </ol>
+                            
+                            <div class="answer-highlight">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Answer: 1/17 ≈ 5.88%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="card question-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link text-decoration-none w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#question3">
+                            <i class="fas fa-trophy me-2 text-warning"></i>
+                            Question 3: Hockey Tournament (Conditional Probability)
+                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                        </button>
+                    </h5>
+                </div>
+                <div id="question3" class="collapse">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Problem:</strong> The Cornell hockey team is playing in a four team tournament. In the first round they have an easy opponent that they will beat 80% of the time but if they win that game they will play against a tougher team where their probability of success is 0.4. What is the probability that they will win the tournament?
+                        </div>
+                        
+                        <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution3">
+                            <i class="fas fa-eye me-2"></i>Show Solution
+                        </button>
+                        
+                        <div id="solution3" class="collapse">
+                            <div class="formula-box">
+                                <strong>Formula Used:</strong> P(A ∩ B) = P(A) × P(B|A)
+                            </div>
+                            
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    <span class="step-number">1</span>
+                                    <strong>Define the events:</strong>
+                                    <ul class="mt-2">
+                                        <li>A = Win first round (easy opponent)</li>
+                                        <li>B = Win second round (tough opponent) given A occurred</li>
+                                        <li>P(A) = 0.8</li>
+                                        <li>P(B|A) = 0.4</li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">2</span>
+                                    <strong>Calculate tournament win probability:</strong>
+                                    <div class="mt-2">
+                                        P(Win Tournament) = P(A ∩ B) = P(A) × P(B|A)<br>
+                                        = 0.8 × 0.4 = 0.32
+                                    </div>
+                                </li>
+                            </ol>
+                            
+                            <div class="tree-diagram mt-3">
+                                <strong>Tree Diagram:</strong><br>
+                                Start<br>
+                                ├─ Win Round 1 (0.8)<br>
+                                │  ├─ Win Round 2 (0.4) → <strong>Win Tournament (0.32)</strong><br>
+                                │  └─ Lose Round 2 (0.6) → Lose Tournament<br>
+                                └─ Lose Round 1 (0.2) → Lose Tournament
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Answer: 0.32 or 32%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="card question-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link text-decoration-none w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#question4">
+                            <i class="fas fa-graduation-cap me-2 text-info"></i>
+                            Question 4: Education Progress (Independent Events)
+                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                        </button>
+                    </h5>
+                </div>
+                <div id="question4" class="collapse">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Problem:</strong> In the town of Mythica 90% of students graduate high school, 60% of high school graduates complete college, and 20% of college graduates get graduate or professional degrees. What fraction of students get advanced degrees?
+                        </div>
+                        
+                        <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution4">
+                            <i class="fas fa-eye me-2"></i>Show Solution
+                        </button>
+                        
+                        <div id="solution4" class="collapse">
+                            <div class="formula-box">
+                                <strong>Formula Used:</strong> P(A ∩ B ∩ C) = P(A) × P(B|A) × P(C|A∩B)
+                            </div>
+                            
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    <span class="step-number">1</span>
+                                    <strong>Define the events:</strong>
+                                    <ul class="mt-2">
+                                        <li>H = Graduate high school: P(H) = 0.9</li>
+                                        <li>C = Complete college given H: P(C|H) = 0.6</li>
+                                        <li>A = Get advanced degree given C: P(A|C) = 0.2</li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">2</span>
+                                    <strong>Calculate the probability:</strong>
+                                    <div class="mt-2">
+                                        P(Advanced Degree) = P(H) × P(C|H) × P(A|C)<br>
+                                        = 0.9 × 0.6 × 0.2 = 0.108
+                                    </div>
+                                </li>
+                            </ol>
+                            
+                            <div class="tree-diagram mt-3">
+                                <strong>Education Path:</strong><br>
+                                Students (100%)<br>
+                                ├─ Graduate HS (90%)<br>
+                                │  ├─ Complete College (54%) = 90% × 60%<br>
+                                │  │  ├─ Advanced Degree (<strong>10.8%</strong>) = 54% × 20%<br>
+                                │  │  └─ No Advanced Degree (43.2%)<br>
+                                │  └─ No College (36%)<br>
+                                └─ No HS Graduation (10%)
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Answer: 0.108 or 10.8%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="card question-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link text-decoration-none w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#question5">
+                            <i class="fas fa-circle me-2 text-danger"></i>
+                            Question 5: Urn Problem (Total Probability)
+                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                        </button>
+                    </h5>
+                </div>
+                <div id="question5" class="collapse">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Problem:</strong> An urn contains 5 red and 10 black balls. We draw 2 balls from the urn without replacement. What is the probability that the second ball drawn is red?
+                        </div>
+                        
+                        <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution5">
+                            <i class="fas fa-eye me-2"></i>Show Solution
+                        </button>
+                        
+                        <div id="solution5" class="collapse">
+                            <div class="formula-box">
+                                <strong>Formula Used:</strong> P(B) = P(B|A₁)P(A₁) + P(B|A₂)P(A₂)
+                            </div>
+                            
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    <span class="step-number">1</span>
+                                    <strong>Define the scenarios:</strong>
+                                    <ul class="mt-2">
+                                        <li>Total balls = 15 (5 red + 10 black)</li>
+                                        <li>A₁ = First ball is red</li>
+                                        <li>A₂ = First ball is black</li>
+                                        <li>B = Second ball is red</li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">2</span>
+                                    <strong>Calculate probabilities for first draw:</strong>
+                                    <div class="mt-2">
+                                        P(A₁) = 5/15 = 1/3<br>
+                                        P(A₂) = 10/15 = 2/3
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">3</span>
+                                    <strong>Calculate conditional probabilities:</strong>
+                                    <div class="mt-2">
+                                        If first ball is red: P(B|A₁) = 4/14 = 2/7<br>
+                                        If first ball is black: P(B|A₂) = 5/14
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">4</span>
+                                    <strong>Apply total probability rule:</strong>
+                                    <div class="mt-2">
+                                        P(B) = P(B|A₁)P(A₁) + P(B|A₂)P(A₂)<br>
+                                        = (2/7)(1/3) + (5/14)(2/3)<br>
+                                        = 2/21 + 10/42 = 2/21 + 5/21 = 7/21 = 1/3
+                                    </div>
+                                </li>
+                            </ol>
+                            
+                            <div class="answer-highlight">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Answer: 1/3 ≈ 33.33%</strong>
+                            </div>
+                            
+                            <div class="alert alert-warning mt-3">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                <strong>Insight:</strong> Notice that the probability of drawing a red ball second is the same as the initial proportion of red balls (5/15 = 1/3). This is a general result for sampling without replacement!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="card question-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link text-decoration-none w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#question6">
+                            <i class="fas fa-file-alt me-2 text-success"></i>
+                            Question 6: Exam Performance (Conditional Probability)
+                            <i class="fas fa-chevron-down float-end mt-1"></i>
+                        </button>
+                    </h5>
+                </div>
+                <div id="question6" class="collapse">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Problem:</strong> 70% of students in a certain course pass the midterm exam. The final exam is passed by 80% of those who passed the midterm, but only by 40% of those who fail the midterm. What fraction of students pass the final?
+                        </div>
+                        
+                        <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution6">
+                            <i class="fas fa-eye me-2"></i>Show Solution
+                        </button>
+                        
+                        <div id="solution6" class="collapse">
+                            <div class="formula-box">
+                                <strong>Formula Used:</strong> P(F) = P(F|M)P(M) + P(F|M')P(M')
+                            </div>
+                            
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    <span class="step-number">1</span>
+                                    <strong>Define the events:</strong>
+                                    <ul class="mt-2">
+                                        <li>M = Pass midterm: P(M) = 0.7</li>
+                                        <li>M' = Fail midterm: P(M') = 0.3</li>
+                                        <li>F = Pass final exam</li>
+                                        <li>P(F|M) = 0.8</li>
+                                        <li>P(F|M') = 0.4</li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <span class="step-number">2</span>
+                                    <strong>Apply total probability rule:</strong>
+                                    <div class="mt-2">
+                                        P(F) = P(F|M)P(M) + P(F|M')P(M')<br>
+                                        = (0.8)(0.7) + (0.4)(0.3)<br>
+                                        = 0.56 + 0.12 = 0.68
+                                    </div>
+                                </li>
+                            </ol>
+                            
+                            <div class="tree-diagram mt-3">
+                                <strong>Exam Performance Tree:</strong><br>
+                                Students (100%)<br>
+                                ├─ Pass Midterm (70%)<br>
+                                │  ├─ Pass Final (56%) = 70% × 80%<br>
+                                │  └─ Fail Final (14%)<br>
+                                └─ Fail Midterm (30%)<br>
+                                   ├─ Pass Final (12%) = 30% × 40%<br>
+                                   └─ Fail Final (18%)<br><br>
+                                <strong>Total Pass Final: 56% + 12% = 68%</strong>
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Answer: 0.68 or 68%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
